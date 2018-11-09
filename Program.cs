@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using SanitizeMe;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace SanitizeMe
+
+namespace Sanitizeme
 {
     class Program
     {
