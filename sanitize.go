@@ -9,14 +9,21 @@ import (
 func main() {
 
 	if len(os.Args) < 2 {
-		fmt.Println("Filename is required")
+		fmt.Println("File is required")
 		os.Exit(1)
 	}
 
 	filename := os.Args[1]
-	filename = ".     -    a-ab   b-"
 
-	fmt.Println(sanitize(filename))
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		fmt.Println("File not found")
+		os.Exit(1)
+	}
+
+	sanitizedFilename := sanitize(filename)
+	os.Rename(filename, sanitizedFilename)
+
+	fmt.Println(sanitizedFilename)
 }
 
 func sanitize(filename string) string {
@@ -28,7 +35,7 @@ func sanitize(filename string) string {
 	re := regexp.MustCompile(`^\.+`)
 	s = re.ReplaceAllString(s, replaceString)
 
-	// Remove trailing space
+	// Remove trailing spaces
 	re = regexp.MustCompile(`\s+|^\s+|\s+$`)
 	s = re.ReplaceAllString(s, replaceString)
 
