@@ -22,9 +22,6 @@ func main() {
 
 	path := os.Args[1]
 
-	fmt.Println(Sanitize(path))
-	os.Exit(0)
-
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println("File not found")
 		os.Exit(1)
