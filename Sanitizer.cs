@@ -19,20 +19,7 @@ namespace SanitizeMe
             var invalidReStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
             var sanitisedNamePart = Regex.Replace(filename, invalidReStr, replaceChar);
 
-            //
-            var illegalRe = @"[\/\?<>\\:\*\|""():]";
-            sanitisedNamePart = Regex.Replace(sanitisedNamePart, illegalRe, replaceChar);
-
-            //Remove spaces around and between
-            sanitisedNamePart = Regex.Replace(sanitisedNamePart, @"\s+|^\s+|\s+$", "");
-
-            //Remove . at the begining
-            sanitisedNamePart = Regex.Replace(sanitisedNamePart, @"^\.+", "");
-
-            //Remove trailing replace char  
-            sanitisedNamePart = Regex.Replace(sanitisedNamePart, @"_+|^_+|_+$", replaceChar);
-
-            //Remove reserved words
+              //Remove reserved words
             //sanitisedNamePart = Regex.Replace(sanitisedNamePart, @"^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$", m => m.Groups[2].Value , RegexOptions.IgnoreCase);
 
             var reservedWords = new[]
