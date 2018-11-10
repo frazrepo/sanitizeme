@@ -21,14 +21,14 @@ func main() {
 
 	filename := os.Args[1]
 
-	// if _, err := os.Stat(filename); os.IsNotExist(err) {
-	// 	fmt.Println("File not found")
-	// 	os.Exit(1)
-	// }
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		fmt.Println("File not found")
+		os.Exit(1)
+	}
 
 	sanitizedFilename := Sanitize(filename)
 
-	// os.Rename(filename, sanitizedFilename)
+	os.Rename(filename, sanitizedFilename)
 
 	fmt.Println(sanitizedFilename)
 }
