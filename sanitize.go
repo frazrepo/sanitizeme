@@ -14,13 +14,17 @@ func main() {
 	}
 
 	filename := os.Args[1]
+	filename = "     -    a-abb-"
+
 	fmt.Println(sanitize(filename))
 }
 
 func sanitize(filename string) string {
 
-	re := regexp.MustCompile(`ab*`)
-	re.ReplaceAllString("-a-abb-", "T")
+	replaceString := "_"
+	re := regexp.MustCompile(`\s+`)
 
-	return filename + "sanitized"
+	s := re.ReplaceAllString(filename, replaceString)
+
+	return s
 }
