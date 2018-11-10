@@ -14,7 +14,7 @@ func main() {
 	}
 
 	filename := os.Args[1]
-	filename = "     -    a-abb-"
+	filename = ".     -    a-ab   b-"
 
 	fmt.Println(sanitize(filename))
 }
@@ -22,9 +22,15 @@ func main() {
 func sanitize(filename string) string {
 
 	replaceString := "_"
-	re := regexp.MustCompile(`\s+`)
+	s := filename
 
-	s := re.ReplaceAllString(filename, replaceString)
+	// Remove .
+	re := regexp.MustCompile(`^\.+`)
+	s = re.ReplaceAllString(s, replaceString)
+
+	// Remove trailing space
+	re = regexp.MustCompile(`\s+|^\s+|\s+$`)
+	s = re.ReplaceAllString(s, replaceString)
 
 	return s
 }
