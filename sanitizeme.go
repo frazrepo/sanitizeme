@@ -53,7 +53,7 @@ func Sanitize(filename string) string {
 	s = re.ReplaceAllString(s, replaceString)
 
 	// Illegal chars
-	re = regexp.MustCompile(`[\/\?<>\\:\*\|"():&']`)
+	re = regexp.MustCompile(`[\/\?<>\\:\*\|"():&',]`)
 	s = re.ReplaceAllString(s, replaceString)
 
 	// Remove trailing replace char
