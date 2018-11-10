@@ -22,6 +22,9 @@ func main() {
 
 	path := os.Args[1]
 
+	fmt.Println(Sanitize(path))
+	os.Exit(0)
+
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println("File not found")
 		os.Exit(1)
@@ -53,12 +56,16 @@ func Sanitize(filename string) string {
 	s = re.ReplaceAllString(s, replaceString)
 
 	// Illegal chars
-	re = regexp.MustCompile(`[\/\?<>\\:\*\|"():]`)
+	re = regexp.MustCompile(`[\/\?<>\\:\*\|"():&']`)
 	s = re.ReplaceAllString(s, replaceString)
 
 	// Remove trailing replace char
 	re = regexp.MustCompile(`_+|^_+|_+$`)
 	s = re.ReplaceAllString(s, replaceString)
+
+	// Replace trailing .
+	re = regexp.MustCompile(`\.+`)
+	s = re.ReplaceAllString(s, ".")
 
 	// Remove Accents
 	s = RemoveAccents(s)
