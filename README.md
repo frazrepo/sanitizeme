@@ -17,5 +17,5 @@ GOOS=windows GOARCH=386 go build -o sanitizeme.exe sanitizeme.go
 # Run
 
 ```shell
-go run sanitize.go
+go run sanitizeme.go
 ```

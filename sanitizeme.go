@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"unicode"
@@ -19,16 +20,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	filename := os.Args[1]
+	path := os.Args[1]
 
-	if _, err := os.Stat(filename); os.IsNotExist(err) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println("File not found")
 		os.Exit(1)
 	}
 
+	filename := filepath.Base(path)
+	dir := filepath.Dir(path)
+
 	sanitizedFilename := Sanitize(filename)
 
-	os.Rename(filename, sanitizedFilename)
+	sanitizedPath := filepath.Join(dir, sanitizedFilename)
+
+	os.Rename(path, sanitizedPath)
 
 	fmt.Println(sanitizedFilename)
 }
