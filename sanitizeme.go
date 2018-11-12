@@ -9,10 +9,8 @@ import (
 )
 
 func main() {
-
-	sanitizer := services.Sanitizer{}
-
 	//Debug
+	// sanitizer := services.Sanitizer{}
 	// filename1 := os.Args[1]
 	// fmt.Println(sanitizer.Sanitize(filename1))
 	// os.Exit(0)
@@ -30,14 +28,21 @@ func main() {
 		os.Exit(1)
 	}
 
+	result := SanitizeFile(path)
+	fmt.Println(result)
+
+}
+
+func SanitizeFile(path string) string {
+
 	filename := filepath.Base(path)
 	dir := filepath.Dir(path)
 
+	sanitizer := services.Sanitizer{}
 	sanitizedFilename := sanitizer.Sanitize(filename)
 
 	sanitizedPath := filepath.Join(dir, sanitizedFilename)
-
 	os.Rename(path, sanitizedPath)
 
-	fmt.Println(sanitizedFilename)
+	return sanitizedFilename
 }
