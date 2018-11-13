@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+
 	//Debug
 	// sanitizer := services.Sanitizer{}
 	// filename1 := os.Args[1]
