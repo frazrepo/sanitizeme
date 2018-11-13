@@ -1,15 +1,17 @@
 package services
 
 import (
+	"log"
 	"os"
+	"path/filepath"
 )
 
-func IsDirectory(path string) (bool, error) {
+func IsDir(path string) bool {
 
 	/*
 		folder := `C:\Temp\`
 
-		isDir, err := services.IsDirectory(folder)
+		isDir, err := services.IsDir(folder)
 
 		if err != nil {
 			fmt.Println("File not found")
@@ -26,8 +28,27 @@ func IsDirectory(path string) (bool, error) {
 	}
 
 	if fi.IsDir() {
-		return true, nil
+		return true
 	} else {
-		return false, nil
+		return false
 	}
+}
+
+func Visit(files *[]string) filepath.WalkFunc {
+	return func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Fatal(err)
+		}
+		*files = append(*files, path)
+		return nil
+	}
+}
+
+func ReadDir(dir string) []string {
+	var files []string
+	err := filepath.Walk(dir, Visit(&files))
+	if err != nil {
+		panic(err)
+	}
+	return files
 }
