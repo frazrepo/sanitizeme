@@ -1,3 +1,11 @@
+# Installation
+
+Download a [precompiled binary](https://github.com/frazrepo/sanitizeme/releases) for your platform
+
+# Usage
+
+`sanitizeme filename`
+
 # Get Package
 
 ```shell
