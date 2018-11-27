@@ -15,6 +15,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -24,24 +25,38 @@ import (
 
 func main() {
 
-	if len(os.Args) < 2 {
-		fmt.Println("File is required")
+	var dryRun bool
+
+	flag.BoolVar(&dryRun, "dry-run", false, "Dry Run - Do not rename files")
+
+	flag.Usage = usage
+
+	flag.Parse()
+
+	args := flag.Args()
+
+	if len(args) != 1 {
+		fmt.Println("Please check options")
+		flag.Usage()
 		os.Exit(1)
 	}
 
-	path := os.Args[1]
+	path := args[0]
+
+	fmt.Println("Input : ", path)
+	fmt.Println("Dry Run : ", dryRun)
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println("File not found")
 		os.Exit(1)
 	}
 
-	result := SanitizeFile(path)
+	result := SanitizeFile(path, dryRun)
 	fmt.Println(result)
 
 }
 
-func SanitizeFile(path string) string {
+func SanitizeFile(path string, dryRun bool) string {
 
 	filename := filepath.Base(path)
 	dir := filepath.Dir(path)
@@ -50,7 +65,27 @@ func SanitizeFile(path string) string {
 	sanitizedFilename := sanitizer.Sanitize(filename)
 
 	sanitizedPath := filepath.Join(dir, sanitizedFilename)
-	os.Rename(path, sanitizedPath)
+
+	if !dryRun {
+		os.Rename(path, sanitizedPath)
+	}
 
 	return sanitizedFilename
+}
+
+var usageStr = `
+                               
+Usage: sanitizeme [options]
+sanitizeme -f filetorename.ext
+
+Required Options:
+    -i, --input        file or direcory
+
+Other Options:
+    --dry-run          dry run, for testing
+`
+
+func usage() {
+	fmt.Printf("%s\n", usageStr)
+	os.Exit(0)
 }
